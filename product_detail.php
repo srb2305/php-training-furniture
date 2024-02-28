@@ -48,12 +48,13 @@
                                     <p><?php  echo $arrayData['short_desc'];?>
                                         <br><span class="stock">2 in stock</span>
                                     </p>
-                                    <form class="cart" method="post" action="shop-cart.html">
-                                        <div class="quantity">
-                                            <input step="1" min="1" max="5" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" type="number">
-                                        </div>
-                                        <button type="submit" class="bt_main">Add to cart</button>
-                                    </form>
+                                    
+                                    <div class="quantity">
+                                        <input type="hidden" id="porduct_id" value="<?php echo $_GET['id']; ?>">
+                                        <input id="qty" step="1" min="1" max="5" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" type="number">
+                                    </div>
+                                    <button type="button" class="bt_main" id="add_to_cart">Add to cart</button>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -152,4 +153,28 @@
                     </div>
                 </div>
             </div>
-         <?php include('footer.php'); ?>
+
+<?php include('footer.php'); ?>
+<script type="text/javascript">
+    $('#add_to_cart').on('click',function(){
+        var productId = $('#porduct_id').val();
+        var qty = $('#qty').val();
+
+        $.ajax({
+            url: "api.php",
+            method: "POST",
+            data: { 
+                qty: qty,
+                product_id: productId,
+                user_id:1,
+                temp_id:1,
+                add_to_cart:true
+            },
+            success: function(result){
+                var output = $.parseJSON(result);
+                $('#total_count').html(output.total_qty);
+                alert(output.message);
+            }
+        });
+    });
+</script>

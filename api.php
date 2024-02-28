@@ -29,6 +29,24 @@ if(isset($_POST['api_add_product'])){
 	echo json_encode($responce);
 }
 
+if(isset($_POST['add_to_cart'])){
+	$qty = $_POST['qty'];
+	$product_id = $_POST['product_id'];
+	$user_id = $_POST['user_id'];
+	$temp_id = $_POST['temp_id'];
 
+	$qry = "insert into add_to_cart(qty,product_id,user_id,temp_user_id) values ($qty,$product_id,$user_id,$temp_id)";
+	$result = mysqli_query($con,$qry);
+	if($result){
+		$responce['status'] = true;
+		$responce['message'] = 'Add to cart successfully.';
+		$responce['total_qty'] = rand(0,10);
+	}else{
+		$responce['status'] = false;
+		$responce['message'] = 'Not added to cart';
+		$responce['total_qty'] = rand(0,10);
+	}
+	echo json_encode($responce);
+}
 
 ?>
