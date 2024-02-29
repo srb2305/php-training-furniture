@@ -49,4 +49,15 @@ if(isset($_POST['add_to_cart'])){
 	echo json_encode($responce);
 }
 
+if(isset($_POST['send_mail'])){
+	$to = $_POST['to'];
+	$cc = $_POST['cc'];
+	$subject = $_POST['subject'];
+	$message = $_POST['message'];
+	$headers = "From: srbitsolution@gmail.com" ."\r\n" . "CC: ".$cc;
+	mail($to, $subject, $message,$headers);
+
+	echo "Mail Send Successfully";
+}
+
 ?>
